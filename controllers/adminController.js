@@ -120,9 +120,34 @@ const adminController = {
           res.redirect('/admin/restaurants')
         })
       })
-  }
+  },
+  
+  getUsers: (req, res) => {
+    return User.findAll({ raw: true })
+      .then(users => {
+        return res.render('admin/users', { users })
+      })
+      .catch(err => console.log(err))
+  },
 
-
+  toggleAdmin: (req, res) => {
+    return User.findByPk(req.params.id)
+      .then((user) => {
+        if (user.email === 'root@example.com') {
+          req.flash('error_messages', '你不能把管理員設為使用者')
+          return res.redirect('back')
+        }
+        user.isAdmin === false ? user.isAdmin = true : user.isAdmin = false
+        return user.update({
+          isAdmin: user.isAdmin
+        })
+        .then((user) => {
+          req.flash('success_message', '已成功將使用者設為管理員之一')
+          res.redirect('/admin/users')
+        })
+      })
+      .catch(err => console.console.log(err))
+  },
 }
 
 module.exports = adminController
