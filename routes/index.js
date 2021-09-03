@@ -4,6 +4,7 @@ const restController = require('../controllers/restController.js')
 const adminController = require('../controllers/adminController.js')
 const userController = require('../controllers/userController.js')
 const categoryController = require('../controllers/categoryController.js')
+const commentController = require('../controllers/commentController.js')
 
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
@@ -27,6 +28,8 @@ module.exports = (app, passport) => {
   app.get('/restaurants', restController.getRestaurants)
    //前台 
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
+  // 評論
+  app.post('/comments', authenticated, commentController.postComment)
 
   // 後台餐廳CRUD
   app.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/restaurants'))
