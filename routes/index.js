@@ -30,7 +30,6 @@ module.exports = (app, passport) => {
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
   // 評論
   app.post('/comments', authenticated, commentController.postComment)
-
   // 後台餐廳CRUD
   app.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/restaurants'))
   app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
@@ -40,6 +39,8 @@ module.exports = (app, passport) => {
   app.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
   app.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
   app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
+  // 後台刪除評論
+  app.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
 
   // 管理者和使用者管理
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
