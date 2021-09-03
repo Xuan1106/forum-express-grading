@@ -25,6 +25,8 @@ module.exports = (app, passport) => {
   // 首頁相關
   app.get('/', authenticated, (req, res) => res.redirect('/restaurants'))
   app.get('/restaurants', restController.getRestaurants)
+   //前台 
+  app.get('/restaurants/:id', authenticated, restController.getRestaurant)
 
   // 後台餐廳CRUD
   app.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/restaurants'))
@@ -40,12 +42,12 @@ module.exports = (app, passport) => {
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
   app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin)
 
+  //分類CRUD 
   app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
   app.post('/admin/categories', authenticatedAdmin, categoryController.postCategory)
   app.get('/admin/categories/:id', authenticatedAdmin, categoryController.getCategories)
   app.put('/admin/categories/:id', authenticatedAdmin, categoryController.putCategory)
-  app.delete('/admin/categories/:id', authenticatedAdmin, categoryController.deleteCategory)
-
+  app.delete('/admin/categories/:id', authenticatedAdmin, categoryController.deleteCategory)  
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
