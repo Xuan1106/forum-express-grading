@@ -8,10 +8,22 @@
       <div class="card-body">
         <h5 class="card-title">{{ user.name }}</h5>
         <p class="card-text">{{ user.email}}</p>
+        <p>{{ count }} 已評論餐廳</p>
         <a href='/users/{{user.id}}/edit'>
           <button type="button" class="btn btn-primary">Edit</button>
         </a>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h6> {{ count }} 已評論餐廳</h6>
+  <div class="row">
+    {{#each comments}}
+    <a href="/restaurants/{{this.restaurantId}}" style="display: inline-block;">
+      <img src="{{this.restaurantImage}}" class="img m-2" style="width: 3rem; height: 3rem;">
+    </a>
+    {{/each}}
   </div>
 </div>
