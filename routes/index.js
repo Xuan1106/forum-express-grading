@@ -27,6 +27,7 @@ module.exports = (app, passport) => {
   app.get('/', authenticated, (req, res) => res.redirect('/restaurants'))
   app.get('/restaurants', restController.getRestaurants)
    //前台 
+   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
   // 評論
   app.post('/comments', authenticated, commentController.postComment)
