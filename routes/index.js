@@ -26,12 +26,22 @@ module.exports = (app, passport) => {
   // 首頁相關
   app.get('/', authenticated, (req, res) => res.redirect('/restaurants'))
   app.get('/restaurants', restController.getRestaurants)
-   //前台 
-   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
+  //前台 
+  app.get('/restaurants/feeds', authenticated, restController.getFeeds)
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
   app.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
   // 評論
   app.post('/comments', authenticated, commentController.postComment)
+  app.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
+
+  app.get('/users/:id', authenticated, userController.getUser)
+  app.get('/users/:id/edit', authenticated, userController.editUser)
+  app.put('/user/:id', authenticated, userController.putUser)
+  app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
+
+  app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
+  app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
+
   // 後台餐廳CRUD
   app.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/restaurants'))
   app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
@@ -41,8 +51,7 @@ module.exports = (app, passport) => {
   app.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
   app.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
   app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
-  // 後台刪除評論
-  app.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
+  
 
   // 管理者和使用者管理
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
@@ -57,13 +66,7 @@ module.exports = (app, passport) => {
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
-
   app.get('/signin', userController.signInPage)
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
   app.get('/logout', userController.logout)
-
-  app.get('/users/:id', authenticated, userController.getUser)
-  app.get('/users/:id/edit', authenticated, userController.editUser)
-  app.put('/user/:id', authenticated, userController.putUser)
-  app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 }
