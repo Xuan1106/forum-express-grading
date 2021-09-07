@@ -28,6 +28,7 @@ module.exports = (app, passport) => {
   app.get('/restaurants', restController.getRestaurants)
   //前台 
   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
+  app.get('/restaurants/top', authenticated, restController.getTopRestaurant)
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
   app.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
   // 評論
